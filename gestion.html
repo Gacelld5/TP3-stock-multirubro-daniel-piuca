@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Productos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    form, table {
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #000;
+      border-collapse: collapse;
+      padding: 8px;
+    }
+    .link-inicio {
+      display: inline-block;
+      margin-bottom: 15px;
+      text-decoration: none;
+      color: #0066cc;
+      font-weight: bold;
+    }
+    .link-inicio:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body id="inicio">
+
+  <a href="index.html" class="link-inicio">🔝 Ir al inicio</a>
+
+  <h2>Formulario de Productos</h2>
+  <form id="productoForm">
+    <input type="hidden" id="productoId" value="">
+    <label>Nombre:
+      <input type="text" id="nombre" required>
+    </label><br><br>
+
+    <label>Rubro:
+      <input type="text" id="rubro" required>
+    </label><br><br>
+
+    <label>Stock:
+      <input type="number" id="stock" required>
+    </label><br><br>
+
+    <label>Precio:
+      <input type="number" id="precio" step="0.01" required>
+    </label><br><br>
+
+    <button type="submit">Guardar</button>
+  </form>
+
+  <h3>Lista de Productos</h3>
+  <table id="productosTabla">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Rubro</th>
+        <th>Stock</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Los productos se agregarán aquí -->
+    </tbody>
+  </table>
+
+  <script>
+    let productos = [];
+    let editandoIndex = null;
+
+    const form = document.getElementById('productoForm');
+    const tabla = document.getElementById('productosTabla').querySelector('tbody');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById('nombre').value;
+      const rubro = document.getElementById('rubro').value;
+      const stock = document.getElementById('stock').value;
+      const precio = document.getElementById('precio').value;
+
+      const producto = { nombre, rubro, stock, precio };
+
+      if (editandoIndex !== null) {
+        productos[editandoIndex] = producto;
+        editandoIndex = null;
+      } else {
+        productos.push(producto);
+      }
+
+      form.reset();
+      mostrarProductos();
+    });
+
+    function mostrarProductos() {
+      tabla.innerHTML = '';
+      productos.forEach((prod, index) => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+          <td>${prod.nombre}</td>
+          <td>${prod.rubro}</td>
+          <td>${prod.stock}</td>
+          <td>$${parseFloat(prod.precio).toFixed(2)}</td>
+          <td>
+            <button onclick="editarProducto(${index})">Editar</button>
+          </td>
+        `;
+        tabla.appendChild(fila);
+      });
+    }
+
+    function editarProducto(index) {
+      const prod = productos[index];
+      document.getElementById('nombre').value = prod.nombre;
+      document.getElementById('rubro').value = prod.rubro;
+      document.getElementById('stock').value = prod.stock;
+      document.getElementById('precio').value = prod.precio;
+      editandoIndex = index;
+    }
+  </script>
+</body>
+</html>
+
