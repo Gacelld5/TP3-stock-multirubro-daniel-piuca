@@ -1,0 +1,21 @@
+h1{
+    color:023047;
+    background-color: ffb703;
+    text-align: center;
+    margin-top: 50px;
+    margin-left: 100px;
+}
+p{
+    color: rgb(30, 158, 115);
+    background-color:burlywood;
+    padding: 15px;
+    border: 10px solid brown;
+    margin-top: 50px;
+    margin-right: 100px;
+    margin-left: 100px;
+    margin-bottom: 20;
+    text-align: center;
+}
+a{
+    text-align: center;
+}
